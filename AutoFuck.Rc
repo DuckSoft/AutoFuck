@@ -1,0 +1,43 @@
+#define frmMain 1000
+#define keyHot 1001
+#define cmdReg 1003
+#define txtAngle 1006
+#define cmdAngle 1005
+#define IDR_VERSION1 1
+
+frmMain DIALOGEX -3,-18,183,42
+CAPTION "自动撸v3"
+FONT 9,"宋体",400,0,134
+STYLE 0x10CE0800
+BEGIN
+  CONTROL "",keyHot,"msctls_hotkey32",0x50010000,42,0,90,15
+  CONTROL "切换热键",1002,"Static",0x50000000,0,3,39,12
+  CONTROL "注册",cmdReg,"Button",0x50010000,141,0,36,15
+  CONTROL "小D友情奉献",1004,"Static",0x50001201,0,21,99,18
+  CONTROL "20",txtAngle,"Edit",0x50010000,102,21,30,15,0x00000200
+  CONTROL "调角",cmdAngle,"Button",0x50010000,141,21,36,15
+END
+
+IDR_VERSION1 VERSIONINFO
+FILEVERSION 1,0,0,0
+PRODUCTVERSION 1,0,0,0
+FILEOS 0x00000004
+FILETYPE 0x00000000
+BEGIN
+  BLOCK "StringFileInfo"
+  BEGIN
+    BLOCK "08040000"
+    BEGIN
+      VALUE "FileVersion", "1.0.0.0\0"
+      VALUE "ProductVersion", "1.0.0.0\0"
+      VALUE "CompanyName", "DuckSoft Software\0"
+      VALUE "FileDescription", "AutoFuck\0"
+      VALUE "ProductName", "AutoFuck\0"
+    END
+  END
+  BLOCK "VarFileInfo"
+  BEGIN
+    VALUE "Translation", 0x0804, 0x0000
+  END
+END
+
