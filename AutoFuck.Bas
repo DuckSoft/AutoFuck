@@ -4,6 +4,7 @@
 
 Declare Function DlgProc(ByVal hWin As HWND, ByVal uMsg As UINT, ByVal wParam As WPARAM, ByVal lParam As LPARAM) As Integer
 Declare Function ThreadProcs(ByVal dwReserved As DWORD)As DWORD
+Declare Function HotkeyTranslate(ByVal hotkey As Integer) As UInteger
 
 	Dim Shared hInstance As HINSTANCE
 	Dim Shared status As Integer
@@ -41,6 +42,24 @@ Function ThreadProcs(ByVal dwReserved As DWORD)As DWORD
 	Loop
 End Function
 
+Function HotkeyTranslate(ByVal hotkey As Integer) As UInteger
+	Dim As UInteger ret = 0
+	hotkey Shr= 8
+	If (hotkey Mod 8)-4 >= 0 Then 'alt
+		ret += 1
+	EndIf
+	
+	If (hotkey Mod 4)-2 >= 0 Then 'ctrl
+		ret += 2
+	EndIf
+	
+	If (hotkey Mod 2)-1 >= 0 Then 'shift
+      ret += 4
+	EndIf
+	
+	HotkeyTranslate = ret
+End Function
+
 Function DlgProc(ByVal hWin As HWND,ByVal uMsg As UINT,ByVal wParam As WPARAM,ByVal lParam As LPARAM) As Integer
 	Select Case uMsg
 		Case WM_INITDIALOG
@@ -57,8 +76,13 @@ Function DlgProc(ByVal hWin As HWND,ByVal uMsg As UINT,ByVal wParam As WPARAM,By
 			Select Case id
 				Case cmdReg
 					Dim As DWORD key = SendMessage(GetDlgItem(hWin,keyHot),HKM_GETHOTKEY,0,0) 
-
-					Dim As Integer ret = RegisterHotKey(hWin, 2, key Shr 9, key Mod 256)
+					
+					If key=0 Then
+						MessageBox(NULL,"请设置热键！",NULL,MB_OK)
+						Exit Select
+					EndIf
+					
+					Dim As Integer ret = RegisterHotKey(hWin, 2, HotkeyTranslate(key), key Mod 256)
 					If ret = 0 Then
 						MessageBox(NULL,"该热键已被占用！",NULL,MB_OK Or MB_ICONINFORMATION)
 					Else
